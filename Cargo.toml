@@ -1,0 +1,12 @@
+[package]
+name = "japanese"
+version = "0.1.0"
+authors = ["Mohammad Rahhal <m.r992@hotmail.com>"]
+description = "Contains tools that help when working with the Japanese script."
+documentation = "https://docs.rs/japanese/latest/japanese/"
+homepage = "https://github.com/mrahhal/rust-japanese"
+repository = "https://github.com/mrahhal/rust-japanese"
+readme = "README.md"
+keywords = ["japanese", "script", "charset"]
+license = "MIT"
+edition = "2021"
