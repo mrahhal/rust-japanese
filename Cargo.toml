@@ -10,3 +10,6 @@ readme = "README.md"
 keywords = ["japanese", "script", "charset"]
 license = "MIT"
 edition = "2021"
+
+[dependencies]
+lazy_static = "1.4.0"
