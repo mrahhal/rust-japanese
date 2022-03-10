@@ -34,10 +34,7 @@ pub fn is_japanese_punctuation(ch: char) -> bool {
 
 /// Returns `true` if the `char` is a Japanese special character ('々' | '〆').
 pub fn is_japanese_special_character(ch: char) -> bool {
-    match ch {
-        '々' | '〆' => true,
-        _ => false,
-    }
+    matches!(ch, '々' | '〆')
 }
 
 /// Returns `true` if the `char` is a hiragana character.
@@ -92,7 +89,7 @@ mod tests {
 
     #[test]
     fn is_hiragana_test() {
-        assert_eq!(true, is_hiragana_string("きょうだ"));
-        assert_eq!(false, is_hiragana_string("勉強ダ"));
+        assert!(is_hiragana_string("きょうだ"));
+        assert!(!is_hiragana_string("勉強ダ"));
     }
 }
