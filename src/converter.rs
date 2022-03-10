@@ -161,23 +161,31 @@ fn get_map_for_hiragana(hiragana: char) -> Option<&'static TwoWayMap> {
     None
 }
 
-pub fn get_vowel_for_hiragana(hiragana: char) -> Vowel {
-    let map = get_map_for_hiragana(hiragana);
-    match map {
-        Some(v) => *v.reversed.get(&hiragana).unwrap(),
-        None => panic!("Couldn't find map for hiragana '{hiragana}'."),
-    }
+/// Gets the `Vowel` of the given hiragana `char`.
+pub fn get_vowel_for_hiragana(hiragana: char) -> Option<Vowel> {
+    let map = get_map_for_hiragana(hiragana)?;
+    map.reversed.get(&hiragana).copied()
 }
 
+/// Converts the given katakana `char` to hiragana.
 pub fn convert_katakana_to_hiragana(katakana: char) -> char {
     char::from_u32(katakana as u32 - HIRAGANA_KATAKANA_DIFF).expect("Expected valid char.")
 }
 
+/// Converts the given hiragana `char` to katakana.
 pub fn convert_hiragana_to_katakana(hiragana: char) -> char {
     char::from_u32(hiragana as u32 + HIRAGANA_KATAKANA_DIFF).expect("Expected valid char.")
 }
 
-pub fn convert_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
+/// Converts a hiragana `char` to another `Vowel` according to how it works in stems.
+///
+/// This basically means we have to add special handling of わ.
+///
+/// One example is when the char is a vowel itself and we want to convert it to `Vowel::A`.
+/// In this case わ will be returned.
+///
+/// In case there's anything wrong in the process, the same given char will be returned instead of an error.
+pub fn convert_to_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
     if !is_hiragana(hiragana) {
         return hiragana;
     }
@@ -195,7 +203,7 @@ pub fn convert_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
         None => return hiragana,
     };
 
-    // If the chosen map is the vowel map and we want to change it to A...
+    // If the chosen map is the vowel map and we want to change it to A we'll just return わ.
     if std::ptr::eq(map, &*VOWEL_MAP) && to_vowel == Vowel::A {
         return 'わ';
     }
@@ -203,7 +211,8 @@ pub fn convert_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
     *map.normal.get(&to_vowel).unwrap()
 }
 
-pub fn get_prolonged_hiragana_for_vowel(vowel: Vowel) -> char {
+/// Gets the prolonged hiragana `char` that's used when the preceding character has the given `Vowel`.
+fn get_prolonged_hiragana_for_vowel(vowel: Vowel) -> char {
     match vowel {
         Vowel::A => 'あ',
         Vowel::I => 'い',
@@ -213,28 +222,29 @@ pub fn get_prolonged_hiragana_for_vowel(vowel: Vowel) -> char {
     }
 }
 
+/// Converts the given katakana string to hiragana.
 pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
     let mut hiragana_string = String::with_capacity(katakana.len());
 
     let chars: Vec<_> = katakana.chars().collect();
     for (i, ch) in chars.iter().copied().enumerate() {
-        let hiragana_ch: char;
-
-        if is_hiragana(ch) || !is_katakana(ch) {
-            hiragana_ch = ch;
+        let hiragana_ch = if is_hiragana(ch) || !is_katakana(ch) {
+            ch
         } else if ch == 'ー' {
             let previous_ch = chars[i - 1];
-            let vowel = get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch));
-            hiragana_ch = get_prolonged_hiragana_for_vowel(vowel);
+            let vowel = get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch))
+                .expect("This should be a valid converted hiragana by now.");
+            get_prolonged_hiragana_for_vowel(vowel)
         } else {
-            hiragana_ch = convert_katakana_to_hiragana(ch);
-        }
+            convert_katakana_to_hiragana(ch)
+        };
         hiragana_string.push(hiragana_ch);
     }
 
     hiragana_string
 }
 
+/// Converts the given hiragana string to katakana.
 pub fn convert_hiragana_to_katakana_string(hiragana: &str) -> String {
     let mut katakana_string = String::with_capacity(hiragana.len());
 
@@ -266,7 +276,7 @@ mod tests {
         #[case] to_vowel: Vowel,
         #[case] expected: char,
     ) {
-        assert_eq!(expected, convert_vowel_in_stem(hiragana, to_vowel));
+        assert_eq!(expected, convert_to_vowel_in_stem(hiragana, to_vowel));
     }
 
     #[rstest]
