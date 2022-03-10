@@ -79,7 +79,7 @@ mod tests {
 
     #[test]
     fn is_hiragana_test() {
-        assert_eq!(is_hiragana_string("きょうだ"), true);
-        assert_eq!(is_hiragana_string("勉強ダ"), false);
+        assert_eq!(true, is_hiragana_string("きょうだ"));
+        assert_eq!(false, is_hiragana_string("勉強ダ"));
     }
 }
