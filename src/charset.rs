@@ -17,20 +17,20 @@ pub fn is_japanese(ch: char) -> bool {
     is_hiragana(ch)
         || is_kanji(ch)
         || is_katakana(ch)
-        || is_punctuation(ch)
+        || is_japanese_punctuation(ch)
         || is_full_width_roman_half_width_katakana(ch)
 }
 
 pub fn is_japanese_character(ch: char) -> bool {
-    is_hiragana(ch) || is_kanji(ch) || is_katakana(ch) || is_special_character(ch)
+    is_hiragana(ch) || is_kanji(ch) || is_katakana(ch) || is_japanese_special_character(ch)
 }
 
 /// Detects if the char is a Japanese punctuation (3000 - 303f).
-pub fn is_punctuation(ch: char) -> bool {
+pub fn is_japanese_punctuation(ch: char) -> bool {
     ch >= PUNCTUATION_START && ch <= PUNCTUATION_END
 }
 
-pub fn is_special_character(ch: char) -> bool {
+pub fn is_japanese_special_character(ch: char) -> bool {
     ch == '々' || ch == '〆'
 }
 
