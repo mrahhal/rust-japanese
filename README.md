@@ -34,12 +34,20 @@ There are two primary modules you'll be using from this crate:
 
 ```rs
 use japanese::charset::*;
+
+is_japanese('あ') // -> true
+is_japanese_punctuation('。') // -> true
+is_katakana_string("あまり") // -> true
+// ...
 ```
 
 ### converter
 
 ```rs
 use japanese::converter::*;
+
+convert_hiragana_to_katakana_string("もん") // -> モン
+convert_katakana_to_hiragana_string("キョービ") // -> きょうび
 ```
 
 [//]: # "links"
