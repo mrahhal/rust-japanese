@@ -6,6 +6,17 @@
 
 Recognize the different Japanese scripts and convert between hiragana/katakana.
 
+## Install
+
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+japanese = "{version}"
+```
+
+Visit the [crate-link](crate) page to copy the latest version.
+
 ## Documentation
 
 https://docs.rs/japanese
@@ -13,6 +24,7 @@ https://docs.rs/japanese
 ## Usage
 
 There are two primary modules you'll be using from this crate:
+
 - charset: Contains functions that detect different scripts (hiragana, katakana, kanji, jp punctuation, etc).
 - converter: Contains functions that convert between different scripts, in addition to other useful utilities.
 
@@ -28,7 +40,6 @@ use japanese::charset::*;
 use japanese::converter::*;
 ```
 
-[//]: # (links)
-
+[//]: # "links"
 [crate-image]: https://img.shields.io/crates/v/japanese.svg
 [crate-link]: https://crates.io/crates/japanese
