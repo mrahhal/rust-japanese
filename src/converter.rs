@@ -1,6 +1,5 @@
 //! Provides functions for converting between the different character sets in the Japanese language.
 
-use core::panic;
 use lazy_static::lazy_static;
 use maplit::hashmap;
 use std::collections::HashMap;
@@ -254,10 +253,7 @@ pub fn convert_hiragana_to_katakana_string(hiragana: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        convert_hiragana_to_katakana_string, convert_katakana_to_hiragana_string,
-        convert_vowel_in_stem, Vowel,
-    };
+    use super::*;
     use rstest::*;
 
     #[rstest]
