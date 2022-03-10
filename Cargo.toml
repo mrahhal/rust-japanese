@@ -2,7 +2,7 @@
 name = "japanese"
 version = "0.1.0"
 authors = ["Mohammad Rahhal <m.r992@hotmail.com>"]
-description = "Contains tools that help when working with the Japanese script."
+description = "Recognize the different Japanese scripts and convert between hiragana/katakana."
 documentation = "https://docs.rs/japanese/latest/japanese/"
 homepage = "https://github.com/mrahhal/rust-japanese"
 repository = "https://github.com/mrahhal/rust-japanese"
