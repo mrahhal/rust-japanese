@@ -1,5 +1,5 @@
 param (
-	[ValidateSet("build", "test", "docs", "format")]
+	[ValidateSet("build", "test", "docs", "format", "lint")]
 	[string]$Script = ""
 )
 
@@ -21,4 +21,8 @@ if ($Script -eq "docs") {
 
 if ($Script -eq "format") {
 	cargo fmt
+}
+
+if ($Script -eq "lint") {
+	cargo clippy
 }
