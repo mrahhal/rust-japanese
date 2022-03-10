@@ -24,5 +24,5 @@ if ($Script -eq "format") {
 }
 
 if ($Script -eq "lint") {
-	cargo clippy
+	cargo clippy --fix
 }
