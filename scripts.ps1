@@ -1,5 +1,5 @@
 param (
-	[ValidateSet("build", "test", "doc", "doc-open", "format", "lint", "publish")]
+	[ValidateSet("build", "release", "test", "doc", "doc-open", "format", "lint", "publish")]
 	[string]$Script = ""
 )
 
