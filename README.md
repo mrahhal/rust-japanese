@@ -35,7 +35,7 @@ use japanese::charset;
 
 charset::is_japanese('あ') // -> true
 charset::is_japanese_punctuation('。') // -> true
-charset::is_katakana_string("あまり") // -> true
+charset::is_hiragana_string("あまり") // -> true
 // ...
 ```
 
