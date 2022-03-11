@@ -1,6 +1,6 @@
 //! Provides functions for recognizing the different character sets in the Japanese language.
 //!
-//! Unicode reference: http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml
+//! Unicode reference: <http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml>
 
 const PUNCTUATION_START: char = '\u{3000}';
 const PUNCTUATION_END: char = '\u{303f}';
