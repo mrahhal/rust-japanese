@@ -46,6 +46,7 @@ use japanese::converter;
 
 converter::convert_hiragana_to_katakana_string("もん") // -> モン
 converter::convert_katakana_to_hiragana_string("キョービ") // -> きょうび
+// ...
 ```
 
 [//]: # "links"
