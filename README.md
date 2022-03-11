@@ -1,7 +1,7 @@
 # rust-japanese
 
 [![CI](https://github.com/mrahhal/rust-japanese/actions/workflows/ci.yml/badge.svg)](https://github.com/mrahhal/rust-japanese/actions/workflows/ci.yml)
-[![Crate][crate-image]][crate-link]
+[![Crate][crate-image]](crate-link)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Recognize the different Japanese scripts and convert between hiragana/katakana.
