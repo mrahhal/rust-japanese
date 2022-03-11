@@ -30,7 +30,7 @@ There are two primary modules you'll be using from this crate:
 
 ### charset
 
-```rs
+```rust
 use japanese::charset;
 
 charset::is_japanese('あ') // -> true
@@ -41,7 +41,7 @@ charset::is_hiragana_string("あまり") // -> true
 
 ### converter
 
-```rs
+```rust
 use japanese::converter;
 
 converter::convert_hiragana_to_katakana_string("もん") // -> モン
