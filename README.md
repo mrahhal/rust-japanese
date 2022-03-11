@@ -33,21 +33,21 @@ There are two primary modules you'll be using from this crate:
 ### charset
 
 ```rs
-use japanese::charset::*;
+use japanese::charset;
 
-is_japanese('あ') // -> true
-is_japanese_punctuation('。') // -> true
-is_katakana_string("あまり") // -> true
+charset::is_japanese('あ') // -> true
+charset::is_japanese_punctuation('。') // -> true
+charset::is_katakana_string("あまり") // -> true
 // ...
 ```
 
 ### converter
 
 ```rs
-use japanese::converter::*;
+use japanese::converter;
 
-convert_hiragana_to_katakana_string("もん") // -> モン
-convert_katakana_to_hiragana_string("キョービ") // -> きょうび
+converter::convert_hiragana_to_katakana_string("もん") // -> モン
+converter::convert_katakana_to_hiragana_string("キョービ") // -> きょうび
 ```
 
 [//]: # "links"
