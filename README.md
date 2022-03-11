@@ -15,7 +15,7 @@ Add this to your `Cargo.toml`:
 japanese = "{version}"
 ```
 
-Visit the [crate-link](crate) page to copy the latest version.
+Visit the [crate](crate-link) page to copy the latest version.
 
 ## Documentation
 
