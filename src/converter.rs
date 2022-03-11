@@ -12,7 +12,7 @@ use lazy_static::lazy_static;
 use maplit::hashmap;
 use std::collections::HashMap;
 
-use crate::charset::*;
+use crate::charset;
 use crate::vowel::*;
 
 struct TwoWayMap {
@@ -175,16 +175,6 @@ pub fn get_vowel_for_hiragana(hiragana: char) -> Option<Vowel> {
     map.reversed.get(&hiragana).copied()
 }
 
-/// Converts the given katakana `char` to hiragana.
-pub fn convert_katakana_to_hiragana(katakana: char) -> char {
-    char::from_u32(katakana as u32 - HIRAGANA_KATAKANA_DIFF).expect("Expected valid char.")
-}
-
-/// Converts the given hiragana `char` to katakana.
-pub fn convert_hiragana_to_katakana(hiragana: char) -> char {
-    char::from_u32(hiragana as u32 + HIRAGANA_KATAKANA_DIFF).expect("Expected valid char.")
-}
-
 /// Converts a hiragana `char` to another `Vowel` according to how it works in stems.
 ///
 /// This basically means we have to add special handling of わ.
@@ -194,7 +184,7 @@ pub fn convert_hiragana_to_katakana(hiragana: char) -> char {
 ///
 /// In case there's anything wrong in the process, the same given char will be returned instead of an error.
 pub fn convert_to_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
-    if !is_hiragana(hiragana) {
+    if !charset::is_hiragana(hiragana) {
         return hiragana;
     }
 
@@ -219,6 +209,22 @@ pub fn convert_to_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
     *map.normal.get(&to_vowel).unwrap()
 }
 
+/// Converts the given katakana `char` to hiragana.
+pub fn convert_katakana_to_hiragana(katakana: char) -> char {
+    if !charset::is_katakana(katakana) {
+        return katakana;
+    }
+    char::from_u32(katakana as u32 - HIRAGANA_KATAKANA_DIFF).unwrap_or(katakana)
+}
+
+/// Converts the given hiragana `char` to katakana.
+pub fn convert_hiragana_to_katakana(hiragana: char) -> char {
+    if !charset::is_hiragana(hiragana) {
+        return hiragana;
+    }
+    char::from_u32(hiragana as u32 + HIRAGANA_KATAKANA_DIFF).unwrap_or(hiragana)
+}
+
 /// Gets the prolonged hiragana `char` that's used when the preceding character has the given `Vowel`.
 fn get_prolonged_hiragana_for_vowel(vowel: Vowel) -> char {
     match vowel {
@@ -236,7 +242,7 @@ pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
 
     let chars: Vec<_> = katakana.chars().collect();
     for (i, ch) in chars.iter().copied().enumerate() {
-        let hiragana_ch = if is_hiragana(ch) || !is_katakana(ch) {
+        let hiragana_ch = if charset::is_hiragana(ch) || !charset::is_katakana(ch) {
             ch
         } else if ch == 'ー' {
             let previous_ch = chars[i - 1];
@@ -258,7 +264,7 @@ pub fn convert_hiragana_to_katakana_string(hiragana: &str) -> String {
 
     let chars: Vec<_> = hiragana.chars().collect();
     for ch in chars.iter().copied() {
-        let katakana_ch = if is_katakana(ch) || !is_hiragana(ch) {
+        let katakana_ch = if charset::is_katakana(ch) || !charset::is_hiragana(ch) {
             ch
         } else {
             convert_hiragana_to_katakana(ch)
@@ -288,13 +294,23 @@ mod tests {
     }
 
     #[rstest]
+    fn convert_katakana_to_hiragana_returns_same_char_if_invalid() {
+        assert_eq!('a', convert_katakana_to_hiragana('a'));
+    }
+
+    #[rstest]
+    fn convert_hiragana_to_katakana_returns_same_char_if_invalid() {
+        assert_eq!('a', convert_hiragana_to_katakana('a'));
+    }
+
+    #[rstest]
     #[case("モン", "もん")]
     #[case("キヨウビ", "きようび")]
     #[case("キョウビ", "きょうび")]
     #[case("キヨービ", "きようび")]
     #[case("キョービ", "きょうび")]
     #[case("キープ", "きいぷ")]
-    fn convert_katakana_to_hiragana_test(#[case] katakana: &str, #[case] expected: &str) {
+    fn convert_katakana_to_hiragana_string_test(#[case] katakana: &str, #[case] expected: &str) {
         assert_eq!(expected, convert_katakana_to_hiragana_string(katakana));
     }
 
@@ -302,7 +318,7 @@ mod tests {
     #[case("もん", "モン")]
     #[case("ひトリ", "ヒトリ")]
     #[case("きようび", "キヨウビ")]
-    fn convert_hiragana_to_katakana_test(#[case] katakana: &str, #[case] expected: &str) {
+    fn convert_hiragana_to_katakana_string_test(#[case] katakana: &str, #[case] expected: &str) {
         assert_eq!(expected, convert_hiragana_to_katakana_string(katakana));
     }
 }
