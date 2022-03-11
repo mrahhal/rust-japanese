@@ -175,14 +175,14 @@ pub fn get_vowel_for_hiragana(hiragana: char) -> Option<Vowel> {
     map.reversed.get(&hiragana).copied()
 }
 
-/// Converts a hiragana `char` to another `Vowel` according to how it works in stems.
+/// Converts a hiragana `char` to another `Vowel` according to how agglutination works in stems.
 ///
 /// This basically means we have to add special handling of わ.
 ///
 /// One example is when the char is a vowel itself and we want to convert it to `Vowel::A`.
 /// In this case わ will be returned.
 ///
-/// In case there's anything wrong in the process, the same given char will be returned instead of an error.
+/// In case there's anything wrong in the process, the same provided `char` will be returned.
 pub fn convert_to_vowel_in_stem(hiragana: char, to_vowel: Vowel) -> char {
     if !charset::is_hiragana(hiragana) {
         return hiragana;
@@ -237,6 +237,8 @@ fn get_prolonged_hiragana_for_vowel(vowel: Vowel) -> char {
 }
 
 /// Converts the given katakana string to hiragana.
+///
+/// This takes care of 'ー' used in prolonged voices. i.e キョービ -> きょうび
 pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
     let mut hiragana_string = String::with_capacity(katakana.len());
 
@@ -259,6 +261,8 @@ pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
 }
 
 /// Converts the given hiragana string to katakana.
+///
+/// This **does not** change long voices into 'ー'. i.e きょうび -> キョウビ
 pub fn convert_hiragana_to_katakana_string(hiragana: &str) -> String {
     let mut katakana_string = String::with_capacity(hiragana.len());
 
