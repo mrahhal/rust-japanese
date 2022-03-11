@@ -8,16 +8,14 @@ Recognize the different Japanese scripts and convert between hiragana/katakana.
 
 ## Install
 
-Not published yet.
-
-<!-- Add this to your `Cargo.toml`:
+Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
 japanese = "{version}"
 ```
 
-Visit the [crate-link](crate) page to copy the latest version. -->
+Visit the [crate-link](crate) page to copy the latest version.
 
 ## Documentation
 
