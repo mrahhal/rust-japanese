@@ -1,4 +1,12 @@
 //! Provides functions for converting between the different character sets in the Japanese language.
+//!
+//! ### Leniency
+//!
+//! Conversion functions assume a lenient approach in which the same `char` is returned if conversion can't be done.
+//!
+//! As an example, `convert_katakana_to_hiragana` expects a katakana character. If a non-katakana `char` is provided then the same `char` will be returned.
+//!
+//! In conversion functions that work with strings, any offending chars are simply skipped over (i.e included in the output string as is).
 
 use lazy_static::lazy_static;
 use maplit::hashmap;
