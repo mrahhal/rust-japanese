@@ -1,5 +1,5 @@
 /// Represents a vowel in the Japanese language.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Vowel {
     A,
     I,

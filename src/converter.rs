@@ -175,7 +175,7 @@ pub fn get_vowel_for_hiragana(hiragana: char) -> Option<Vowel> {
     map.reversed.get(&hiragana).copied()
 }
 
-/// Converts a hiragana `char` to another `Vowel` according to how agglutination works in stems.
+/// Converts a hiragana `char` to another [Vowel] according to how agglutination works in stems.
 ///
 /// This basically means we have to add special handling of わ.
 ///
