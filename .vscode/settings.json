@@ -2,8 +2,8 @@
 	"files.exclude": {
 		"target/": true
 	},
-	"explorer.experimental.fileNesting.enabled": true,
-	"explorer.experimental.fileNesting.patterns": {
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
 		"cargo.toml": "cargo.lock, rust-toolchain.toml, rustfmt.toml"
 	}
 }
