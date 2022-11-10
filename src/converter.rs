@@ -13,7 +13,7 @@ use maplit::hashmap;
 use std::collections::HashMap;
 
 use crate::charset;
-use crate::vowel::*;
+use crate::Vowel;
 
 struct TwoWayMap {
     normal: HashMap<Vowel, char>,

@@ -2,4 +2,6 @@
 
 pub mod charset;
 pub mod converter;
-pub mod vowel;
+mod vowel;
+
+pub use vowel::*;
