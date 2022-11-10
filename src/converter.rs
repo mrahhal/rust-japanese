@@ -12,8 +12,7 @@ use lazy_static::lazy_static;
 use maplit::hashmap;
 use std::collections::HashMap;
 
-use crate::charset;
-use crate::Vowel;
+use crate::{charset, Vowel};
 
 struct TwoWayMap {
     normal: HashMap<Vowel, char>,
