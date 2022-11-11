@@ -8,8 +8,8 @@
 //!
 //! In conversion functions that work with strings, any offending chars are simply skipped over (i.e included in the output string as is).
 
-use lazy_static::lazy_static;
 use maplit::hashmap;
+use once_cell::sync::Lazy;
 use std::collections::HashMap;
 
 use crate::{charset, Vowel};
@@ -29,116 +29,148 @@ impl TwoWayMap {
 
 const HIRAGANA_KATAKANA_DIFF: u32 = 'ア' as u32 - 'あ' as u32;
 
-lazy_static! {
-    static ref VOWEL_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+static VOWEL_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'あ',
         Vowel::I => 'い',
         Vowel::U => 'う',
         Vowel::E => 'え',
         Vowel::O => 'お',
-    });
-    static ref VOWEL_SMALL_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static VOWEL_SMALL_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ぁ',
         Vowel::I => 'ぃ',
         Vowel::U => 'ぅ',
         Vowel::E => 'ぇ',
         Vowel::O => 'ぉ',
-    });
-    static ref K_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static K_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'か',
         Vowel::I => 'き',
         Vowel::U => 'く',
         Vowel::E => 'け',
         Vowel::O => 'こ',
-    });
-    static ref G_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static G_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'が',
         Vowel::I => 'ぎ',
         Vowel::U => 'ぐ',
         Vowel::E => 'げ',
         Vowel::O => 'ご',
-    });
-    static ref S_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static S_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'さ',
         Vowel::I => 'し',
         Vowel::U => 'す',
         Vowel::E => 'せ',
         Vowel::O => 'そ',
-    });
-    static ref Z_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static Z_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ざ',
         Vowel::I => 'じ',
         Vowel::U => 'ず',
         Vowel::E => 'ぜ',
         Vowel::O => 'ぞ',
-    });
-    static ref T_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static T_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'た',
         Vowel::I => 'ち',
         Vowel::U => 'つ',
         Vowel::E => 'て',
         Vowel::O => 'と',
-    });
-    static ref D_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static D_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'だ',
         Vowel::I => 'ぢ',
         Vowel::U => 'づ',
         Vowel::E => 'で',
         Vowel::O => 'ど',
-    });
-    static ref N_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static N_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'な',
         Vowel::I => 'に',
         Vowel::U => 'ぬ',
         Vowel::E => 'ね',
         Vowel::O => 'の',
-    });
-    static ref H_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static H_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'は',
         Vowel::I => 'ひ',
         Vowel::U => 'ふ',
         Vowel::E => 'へ',
         Vowel::O => 'ほ',
-    });
-    static ref B_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static B_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ば',
         Vowel::I => 'び',
         Vowel::U => 'ぶ',
         Vowel::E => 'べ',
         Vowel::O => 'ぼ',
-    });
-    static ref P_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static P_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ぱ',
         Vowel::I => 'ぴ',
         Vowel::U => 'ぷ',
         Vowel::E => 'ぺ',
         Vowel::O => 'ぽ',
-    });
-    static ref M_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static M_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ま',
         Vowel::I => 'み',
         Vowel::U => 'む',
         Vowel::E => 'め',
         Vowel::O => 'も',
-    });
-    static ref R_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static R_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ら',
         Vowel::I => 'り',
         Vowel::U => 'る',
         Vowel::E => 'れ',
         Vowel::O => 'ろ',
-    });
-    static ref Y_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static Y_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'や',
         Vowel::U => 'ゆ',
         Vowel::O => 'よ',
-    });
-    static ref Y_SMALL_MAP: TwoWayMap = TwoWayMap::new(hashmap! {
+    })
+});
+static Y_SMALL_MAP: Lazy<TwoWayMap> = Lazy::new(|| {
+    TwoWayMap::new(hashmap! {
         Vowel::A => 'ゃ',
         Vowel::U => 'ゅ',
         Vowel::O => 'ょ',
-    });
-    static ref MAPS: Vec<&'static TwoWayMap> = vec![
+    })
+});
+static MAPS: Lazy<Vec<&'static TwoWayMap>> = Lazy::new(|| {
+    vec![
         &VOWEL_MAP,
         &VOWEL_SMALL_MAP,
         &K_MAP,
@@ -155,8 +187,8 @@ lazy_static! {
         &R_MAP,
         &Y_MAP,
         &Y_SMALL_MAP,
-    ];
-}
+    ]
+});
 
 fn get_map_for_hiragana(hiragana: char) -> Option<&'static TwoWayMap> {
     for map in MAPS.iter() {
