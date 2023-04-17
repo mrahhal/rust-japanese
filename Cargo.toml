@@ -1,6 +1,6 @@
 [package]
 name = "japanese"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Mohammad Rahhal <m.r992@hotmail.com>"]
 description = "Recognize the different Japanese scripts and convert between hiragana/katakana."
 documentation = "https://docs.rs/japanese/latest/japanese/"
