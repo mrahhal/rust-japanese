@@ -291,7 +291,8 @@ pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
                     'ヲ' => 'お',
                     _ => {
                         // Standard case.
-                        let vowel = get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch));
+                        let vowel =
+                            get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch));
                         if let Some(vowel) = vowel {
                             // A valid converted hiragana that we the vowel of.
                             get_prolonged_hiragana_for_vowel(vowel)
