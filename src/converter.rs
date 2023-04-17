@@ -278,10 +278,30 @@ pub fn convert_katakana_to_hiragana_string(katakana: &str) -> String {
         let hiragana_ch = if charset::is_hiragana(ch) || !charset::is_katakana(ch) {
             ch
         } else if ch == 'ー' {
-            let previous_ch = chars[i - 1];
-            let vowel = get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch))
-                .expect("This should be a valid converted hiragana by now.");
-            get_prolonged_hiragana_for_vowel(vowel)
+            if i == 0 {
+                // Nothing before it, no need to convert.
+                ch
+            } else {
+                let previous_ch = chars[i - 1];
+
+                // There's special handling for ワ and ヲ.
+                match previous_ch {
+                    'ワ' => 'あ',
+                    'ヮ' => 'ぁ',
+                    'ヲ' => 'お',
+                    _ => {
+                        // Standard case.
+                        let vowel = get_vowel_for_hiragana(convert_katakana_to_hiragana(previous_ch));
+                        if let Some(vowel) = vowel {
+                            // A valid converted hiragana that we the vowel of.
+                            get_prolonged_hiragana_for_vowel(vowel)
+                        } else {
+                            // We don't know how to do this, return the same character.
+                            ch
+                        }
+                    }
+                }
+            }
         } else {
             convert_katakana_to_hiragana(ch)
         };
@@ -345,8 +365,19 @@ mod tests {
     #[case("キヨービ", "きようび")]
     #[case("キョービ", "きょうび")]
     #[case("キープ", "きいぷ")]
+    #[case("チームワーク", "ちいむわあく")]
+    #[case("ヲー", "をお")]
+    #[case("ー", "ー")]
     fn convert_katakana_to_hiragana_string_test(#[case] katakana: &str, #[case] expected: &str) {
         assert_eq!(expected, convert_katakana_to_hiragana_string(katakana));
+    }
+
+    #[rstest]
+    #[case("チームワーク")]
+    #[case("ヲー")]
+    #[case("ー")]
+    fn convert_katakana_to_hiragana_string_does_not_panic(#[case] katakana: &str) {
+        convert_katakana_to_hiragana_string(katakana);
     }
 
     #[rstest]
